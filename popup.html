@@ -359,8 +359,17 @@
             padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             flex-shrink: 0;
+        }
+
+        .built-by a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .built-by a:hover {
+            text-decoration: underline;
         }
 
         .update-section {
@@ -539,7 +548,7 @@
         </div>
 
         <div class="footer">
-            <div class="built-by">Built by Rowbot</div>
+            <div class="built-by">Built by <a href="https://github.com/rownok860">Rownok Ahmed</a></div>
             <div class="update-section">
                 <button class="update-btn" id="update-btn">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

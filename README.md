@@ -21,4 +21,4 @@ PassGen is a simple and secure password generator extension for Google Chrome. I
 4.  Click the copy icon to copy the password to your clipboard.
 5.  Your recent passwords will be listed at the bottom of the popup.
 
-The project is open-source, licensed under the MIT License, and contributions are welcome on its [GitHub repository](https://github.com/rownok860/passgen).
+The project is open-source, licensed under the GPL License, and contributions are welcome on its [GitHub repository](https://github.com/rownok860/passgen).

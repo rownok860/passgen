@@ -17,7 +17,7 @@ const githubBtn = document.getElementById('github-btn');
 const toast = document.getElementById('toast');
 const passwordList = document.getElementById('password-list');
 
-// Constants
+// Constants - UPDATED WITH YOUR GITHUB
 const VERSION_JSON_URL = 'https://raw.githubusercontent.com/rownok860/passgen/main/version.json';
 const GITHUB_REPO_URL = 'https://github.com/rownok860/passgen';
 const MAX_RECENT_PASSWORDS = 5;
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
 });
 
-// Load settings from chrome.storage
 async function loadSettings() {
     try {
         const result = await chrome.storage.local.get([
@@ -57,7 +56,6 @@ async function loadSettings() {
     }
 }
 
-// Save settings to chrome.storage
 async function saveSettings() {
     try {
         await chrome.storage.local.set({
@@ -73,7 +71,6 @@ async function saveSettings() {
     }
 }
 
-// Load recent passwords from storage
 async function loadRecentPasswords() {
     try {
         const result = await chrome.storage.local.get('recentPasswords');
@@ -84,7 +81,6 @@ async function loadRecentPasswords() {
     }
 }
 
-// Render recent passwords in the UI
 function renderRecentPasswords(passwords) {
     passwordList.innerHTML = '';
     
@@ -114,7 +110,6 @@ function renderRecentPasswords(passwords) {
         passwordList.appendChild(passwordItem);
     });
     
-    // Add event listeners for the new buttons
     document.querySelectorAll('.copy-recent-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const password = e.target.closest('.copy-recent-btn').dataset.password;
@@ -130,7 +125,6 @@ function renderRecentPasswords(passwords) {
     });
 }
 
-// Mask password for display
 function maskPassword(password) {
     if (password.length <= 8) {
         return password;
@@ -138,35 +132,27 @@ function maskPassword(password) {
     return password.substring(0, 6) + '...';
 }
 
-// Add password to recent list
 async function addToRecentPasswords(password) {
     try {
         const result = await chrome.storage.local.get('recentPasswords');
         let recentPasswords = result.recentPasswords || [];
         
-        // Remove if already exists (to avoid duplicates)
         recentPasswords = recentPasswords.filter(item => item.password !== password);
         
-        // Add to beginning of array
         recentPasswords.unshift({
             password: password,
             timestamp: Date.now()
         });
         
-        // Keep only the most recent passwords
         recentPasswords = recentPasswords.slice(0, MAX_RECENT_PASSWORDS);
         
-        // Save to storage
         await chrome.storage.local.set({ recentPasswords });
-        
-        // Update UI
         renderRecentPasswords(recentPasswords);
     } catch (error) {
         console.error('Error saving recent password:', error);
     }
 }
 
-// Copy a recent password
 async function copyRecentPassword(password) {
     try {
         await navigator.clipboard.writeText(password);
@@ -177,7 +163,6 @@ async function copyRecentPassword(password) {
     }
 }
 
-// Delete a recent password
 async function deleteRecentPassword(index) {
     try {
         const result = await chrome.storage.local.get('recentPasswords');
@@ -192,7 +177,6 @@ async function deleteRecentPassword(index) {
     }
 }
 
-// Clear all recent passwords
 async function clearRecentPasswords() {
     try {
         await chrome.storage.local.set({ recentPasswords: [] });
@@ -203,7 +187,6 @@ async function clearRecentPasswords() {
     }
 }
 
-// Generate password function
 function generatePassword() {
     const length = parseInt(lengthSlider.value);
     const includeUppercase = uppercaseToggle.checked;
@@ -245,23 +228,17 @@ function generatePassword() {
     saveSettings();
 }
 
-// Check for updates using version.json
 async function checkForUpdates() {
     try {
         showToast('Checking for updates...');
         
-        // Fetch version.json from GitHub
         const response = await fetch(VERSION_JSON_URL + '?t=' + Date.now());
         if (!response.ok) throw new Error('Failed to fetch version info');
         
         const versionData = await response.json();
         const currentVersion = chrome.runtime.getManifest().version;
         
-        console.log('Current version:', currentVersion);
-        console.log('Latest version:', versionData.version);
-        
         if (compareVersions(versionData.version, currentVersion) > 0) {
-            // New version available
             showUpdateAvailable(versionData);
         } else {
             showToast('You have the latest version!');
@@ -272,13 +249,11 @@ async function checkForUpdates() {
     }
 }
 
-// Show update available notification
 function showUpdateAvailable(versionData) {
-    // Show update badge
     updateBadge.style.display = 'block';
     updateBadge.textContent = `v${versionData.version} available`;
     
-    // Change update button to open download URL
+    // Make both the button and badge clickable
     updateBtn.innerHTML = `
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
@@ -287,27 +262,29 @@ function showUpdateAvailable(versionData) {
     `;
     updateBtn.classList.add('update-available');
     
+    const updateUrl = versionData.download_url || GITHUB_REPO_URL + '/releases/latest';
+    
     updateBtn.onclick = () => {
-        chrome.tabs.create({ url: versionData.download_url || GITHUB_REPO_URL + '/releases/latest' });
+        chrome.tabs.create({ url: updateUrl });
     };
     
-    // Store update info for background use
+    updateBadge.onclick = () => {
+        chrome.tabs.create({ url: updateUrl });
+    };
+    
     chrome.storage.local.set({
         updateAvailable: true,
         latestVersion: versionData.version,
-        downloadUrl: versionData.download_url
+        downloadUrl: updateUrl
     });
     
-    showToast(`New version ${versionData.version} available!`);
+    showToast(`New version ${versionData.version} available! Click to update.`);
 }
 
-// Enhanced version comparison helper
 function compareVersions(v1, v2) {
-    // Remove 'v' prefix if present and split by dots
     const v1Parts = v1.replace(/^v/, '').split('.').map(Number);
     const v2Parts = v2.replace(/^v/, '').split('.').map(Number);
     
-    // Compare each part
     for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
         const v1Part = v1Parts[i] || 0;
         const v2Part = v2Parts[i] || 0;
@@ -319,14 +296,54 @@ function compareVersions(v1, v2) {
     return 0;
 }
 
-// Check for updates on popup open
 async function checkStoredUpdateInfo() {
     try {
-        const result = await chrome.storage.local.get(['updateAvailable', 'latestVersion']);
+        const result = await chrome.storage.local.get(['updateAvailable', 'latestVersion', 'downloadUrl']);
         if (result.updateAvailable && result.latestVersion) {
             showUpdateAvailable({
                 version: result.latestVersion,
-                download_url: GITHUB_REPO_URL + '/releases/latest'
+                download_url: result.downloadUrl || GITHUB_REPO_URL + '/releases/latest'
             });
         }
-    } catch (error)
+    } catch (error) {
+        console.error('Error checking stored update info:', error);
+    }
+}
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+}
+
+function setupEventListeners() {
+    lengthSlider.addEventListener('input', () => {
+        lengthValue.textContent = lengthSlider.value;
+        saveSettings();
+    });
+    
+    [uppercaseToggle, lowercaseToggle, numbersToggle, symbolsToggle, autocopyToggle].forEach(toggle => {
+        toggle.addEventListener('change', saveSettings);
+    });
+    
+    copyBtn.addEventListener('click', () => {
+        const password = passwordField.value;
+        navigator.clipboard.writeText(password)
+            .then(() => {
+                showToast('Copied to clipboard!');
+                addToRecentPasswords(password);
+            })
+            .catch(err => showToast('Failed to copy password'));
+    });
+    
+    generateBtn.addEventListener('click', generatePassword);
+    regenerateBtn.addEventListener('click', generatePassword);
+    clearHistoryBtn.addEventListener('click', clearRecentPasswords);
+    updateBtn.addEventListener('click', checkForUpdates);
+    
+    githubBtn.addEventListener('click', () => {
+        chrome.tabs.create({ url: GITHUB_REPO_URL });
+    });
+}

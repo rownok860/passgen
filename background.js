@@ -1,5 +1,6 @@
 // Background script for update checks
 const VERSION_JSON_URL = 'https://raw.githubusercontent.com/rownok860/passgen/main/version.json';
+const GITHUB_REPO_URL = 'https://github.com/rownok860/passgen';
 
 // Check for updates when extension is installed or updated
 chrome.runtime.onInstalled.addListener((details) => {
@@ -65,7 +66,7 @@ async function checkForUpdatesInBackground() {
             await chrome.storage.local.set({
                 updateAvailable: true,
                 latestVersion: versionData.version,
-                downloadUrl: versionData.download_url,
+                downloadUrl: versionData.download_url || GITHUB_REPO_URL + '/releases/latest',
                 releaseNotes: versionData.release_notes,
                 lastUpdateCheck: Date.now()
             });

@@ -1,7 +1,7 @@
 {
   "version": "1.0.1",
   "release_notes": "Added version checking and update notifications",
-  "release_date": "2024-01-15",
+  "release_date": "2025-11-01",
   "download_url": "https://github.com/rownok860/passgen/releases/latest",
   "changelog": [
     "Added automatic version checking",

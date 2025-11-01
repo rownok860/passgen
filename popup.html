@@ -38,10 +38,8 @@
 
         body {
             width: 360px;
-            height: 520px;
             background-color: var(--primary-dark);
             color: var(--text-primary);
-            overflow: hidden;
         }
 
         .container {
@@ -51,7 +49,6 @@
             height: 100%;
         }
 
-        /* Header Section */
         .header {
             display: flex;
             justify-content: space-between;
@@ -59,6 +56,7 @@
             margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
 
         .app-title h1 {
@@ -80,9 +78,6 @@
             padding: 6px;
             border-radius: 4px;
             transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .github-btn:hover {
@@ -90,7 +85,6 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Password Display */
         .password-display {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -99,7 +93,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
 
         .password-field {
@@ -110,9 +104,6 @@
             font-size: 16px;
             font-family: 'Courier New', monospace;
             font-weight: 600;
-            padding: 4px 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
             outline: none;
         }
 
@@ -128,9 +119,6 @@
             cursor: pointer;
             padding: 6px;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: var(--transition);
         }
 
@@ -139,25 +127,17 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Settings Section */
         .settings {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 16px;
             margin-bottom: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
 
         .settings-title {
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .settings-group {
             margin-bottom: 16px;
         }
 
@@ -184,11 +164,6 @@
             border-radius: 50%;
             background: var(--accent);
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
         }
 
         .length-value {
@@ -196,7 +171,6 @@
             font-weight: 600;
             min-width: 24px;
             text-align: center;
-            color: var(--accent);
         }
 
         .toggle-group {
@@ -215,7 +189,6 @@
         .toggle-label {
             font-size: 14px;
             cursor: pointer;
-            user-select: none;
         }
 
         .toggle {
@@ -263,7 +236,6 @@
             transform: translateX(16px);
         }
 
-        /* Generate Button */
         .generate-btn {
             background: linear-gradient(135deg, var(--accent), var(--accent-hover));
             border: none;
@@ -274,20 +246,13 @@
             cursor: pointer;
             transition: var(--transition);
             margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(255, 106, 0, 0.3);
-            font-size: 14px;
+            flex-shrink: 0;
         }
 
         .generate-btn:hover {
-            box-shadow: 0 6px 16px rgba(255, 106, 0, 0.4);
             transform: translateY(-1px);
         }
 
-        .generate-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Recent Passwords */
         .recent-passwords {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -295,8 +260,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 0;
         }
 
         .section-header {
@@ -304,6 +268,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            flex-shrink: 0;
         }
 
         .section-title {
@@ -333,6 +298,20 @@
             max-height: 200px;
         }
 
+        .password-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .password-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .password-list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
         .password-item {
             display: flex;
             align-items: center;
@@ -352,13 +331,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin-right: 8px;
-            color: var(--text-primary);
         }
 
         .password-actions-small {
             display: flex;
             gap: 4px;
-            opacity: 0;
+            opacity: 0.7;
             transition: var(--transition);
         }
 
@@ -371,10 +349,8 @@
             color: var(--text-secondary);
             font-style: italic;
             padding: 40px 20px;
-            font-size: 13px;
         }
 
-        /* Footer */
         .footer {
             display: flex;
             justify-content: space-between;
@@ -384,6 +360,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 12px;
             color: var(--text-secondary);
+            flex-shrink: 0;
         }
 
         .update-section {
@@ -434,40 +411,40 @@
             white-space: nowrap;
         }
 
+        .update-badge:hover {
+            animation: none;
+            transform: scale(1.05);
+        }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
-        /* Toast Notification */
         .toast {
             position: fixed;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
+            transform: translateX(-50%);
             background-color: var(--card-bg);
             color: var(--text-primary);
             padding: 12px 20px;
             border-radius: var(--border-radius);
             font-size: 14px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
         }
 
         .toast.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header Section -->
         <div class="header">
             <div class="app-title">
                 <h1>PassGen</h1>
@@ -480,7 +457,6 @@
             </button>
         </div>
 
-        <!-- Password Display -->
         <div class="password-display">
             <input type="text" class="password-field" readonly id="password-field" value="Generating...">
             <div class="password-actions">
@@ -497,51 +473,46 @@
             </div>
         </div>
 
-        <!-- Settings Section -->
         <div class="settings">
-            <div class="settings-title">
-                <span>Customize Password</span>
+            <div class="settings-title">Customize Password</div>
+            
+            <div class="slider-container">
+                <span>Length:</span>
+                <input type="range" min="6" max="64" value="12" class="slider" id="length-slider">
+                <span class="length-value" id="length-value">12</span>
             </div>
             
-            <div class="settings-group">
-                <div class="slider-container">
-                    <span>Length:</span>
-                    <input type="range" min="6" max="64" value="12" class="slider" id="length-slider">
-                    <span class="length-value" id="length-value">12</span>
+            <div class="toggle-group">
+                <div class="toggle-item">
+                    <label class="toggle">
+                        <input type="checkbox" id="uppercase-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Uppercase</span>
                 </div>
                 
-                <div class="toggle-group">
-                    <div class="toggle-item">
-                        <label class="toggle">
-                            <input type="checkbox" id="uppercase-toggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">Uppercase</span>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <label class="toggle">
-                            <input type="checkbox" id="lowercase-toggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">Lowercase</span>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <label class="toggle">
-                            <input type="checkbox" id="numbers-toggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">Numbers</span>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <label class="toggle">
-                            <input type="checkbox" id="symbols-toggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">Symbols</span>
-                    </div>
+                <div class="toggle-item">
+                    <label class="toggle">
+                        <input type="checkbox" id="lowercase-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Lowercase</span>
+                </div>
+                
+                <div class="toggle-item">
+                    <label class="toggle">
+                        <input type="checkbox" id="numbers-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Numbers</span>
+                </div>
+                
+                <div class="toggle-item">
+                    <label class="toggle">
+                        <input type="checkbox" id="symbols-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Symbols</span>
                 </div>
             </div>
             
@@ -554,10 +525,8 @@
             </div>
         </div>
 
-        <!-- Generate Button -->
         <button class="generate-btn" id="generate-btn">Generate Password</button>
 
-        <!-- Recent Passwords -->
         <div class="recent-passwords">
             <div class="section-header">
                 <div class="section-title">Recent Passwords</div>
@@ -569,7 +538,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
             <div class="built-by">Built by Rowbot</div>
             <div class="update-section">
@@ -584,7 +552,6 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
     <div class="toast" id="toast">Copied to clipboard!</div>
 
     <script src="popup.js"></script>

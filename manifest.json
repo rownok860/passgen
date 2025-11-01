@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PassGen - Password Generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, privacy-focused password generator with recent history and update checks",
   
   "action": {
